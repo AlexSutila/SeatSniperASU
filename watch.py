@@ -102,6 +102,8 @@ def start_poll(params: SearchParams, sleep_time):
         finds = get_course_list(params)
         for found in finds:
             description = f'{found.number} {found.instructor} *at* {found.location}, {found.available}/{found.total} seats open'
+            print(f'[LOG]: checking {found}')
+
             if found.number not in course_dict.keys():
                 ping_webhook(webhook, f'**{course_title} discovered:** {description}')
 
