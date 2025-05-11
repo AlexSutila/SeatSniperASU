@@ -102,7 +102,7 @@ def start_poll(params: SearchParams, sleep_time):
         finds = get_course_list(params)
         for found in finds:
             description = f'{found.number} {found.instructor} *at* {found.location}, {found.available}/{found.total} seats open'
-            print(f'[LOG]: checking {found}')
+            print(f'[LOG]: {found}')
 
             if found.number not in course_dict.keys():
                 ping_webhook(webhook, f'**{course_title} discovered:** {description}')
@@ -139,7 +139,7 @@ def __get_course_list(soup: BeautifulSoup) -> List[CourseInfo]:
         seats = element.find("div", class_="class-results-cell seats").text
         available, total = __get_seat_info(seats)
         course_list.append(CourseInfo(
-            number=element.find("div", class_="class-results-cell number").text,
+            number=element.find("div", class_="class-results-cell number").text.replace("Syllabus", ""),
             instructor=element.find("div", class_="class-results-cell instructor").text,
             location=element.find("div", class_="class-results-cell text-nowrap location").text,
             available=available, total=total
